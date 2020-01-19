@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.op.base.core.mapper.FunctionMapper">
+  <resultMap id="BaseResultMap" type="com.op.base.core.entity.Function">
+    <id column="function_id" jdbcType="VARCHAR" property="functionId" />
+    <result column="function_code" jdbcType="VARCHAR" property="functionCode" />
+    <result column="function_name" jdbcType="VARCHAR" property="functionName" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    function_id, function_code, function_name, remark, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_function
+    where function_id = #{functionId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_function
+    where function_id = #{functionId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.op.base.core.entity.Function">
+    insert into t_function (function_id, function_code, function_name,
+      remark, create_time)
+    values (#{functionId,jdbcType=VARCHAR}, #{functionCode,jdbcType=VARCHAR}, #{functionName,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.op.base.core.entity.Function">
+    insert into t_function
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="functionId != null">
+        function_id,
+      </if>
+      <if test="functionCode != null">
+        function_code,
+      </if>
+      <if test="functionName != null">
+        function_name,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="functionId != null">
+        #{functionId,jdbcType=VARCHAR},
+      </if>
+      <if test="functionCode != null">
+        #{functionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="functionName != null">
+        #{functionName,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.op.base.core.entity.Function">
+    update t_function
+    <set>
+      <if test="functionCode != null">
+        function_code = #{functionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="functionName != null">
+        function_name = #{functionName,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where function_id = #{functionId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.op.base.core.entity.Function">
+    update t_function
+    set function_code = #{functionCode,jdbcType=VARCHAR},
+      function_name = #{functionName,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where function_id = #{functionId,jdbcType=VARCHAR}
+  </update>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultMap="BaseResultMap">
+        select * from t_function
+    </select>
+
+    <!-- 根据角色ID获取权限 -->
+    <select id="selectAllByRoleId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+        f.*
+        FROM t_function f, t_role r, t_role_function rf
+        WHERE f.function_id = rf.function_id AND r.role_id = rf.role_id AND r.role_id =#{roleId,jdbcType=VARCHAR}
+    </select>
+
+</mapper>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.op.base.core.mapper.RoleFunctionMapper">
+  <resultMap id="BaseResultMap" type="com.op.base.core.entity.RoleFunction">
+    <id column="role_function_id" jdbcType="VARCHAR" property="roleFunctionId" />
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="function_id" jdbcType="VARCHAR" property="functionId" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <association column="role_id" property="role" javaType="com.op.base.core.entity.Role" resultMap="com.op.base.core.mapper.RoleMapper.BaseResultMap"></association>
+    <association column="function_id" property="function" javaType="com.op.base.core.entity.Function" resultMap="com.op.base.core.mapper.FunctionMapper.BaseResultMap"></association>
+  </resultMap>
+  <sql id="Base_Column_List">
+    role_function_id, role_id, function_id, remark, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_role_function
+    where role_function_id = #{roleFunctionId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_role_function
+    where role_function_id = #{roleFunctionId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.op.base.core.entity.RoleFunction">
+    insert into t_role_function (role_function_id, role_id, function_id,
+      remark, create_time)
+    values (#{roleFunctionId,jdbcType=VARCHAR}, #{roleId,jdbcType=VARCHAR}, #{functionId,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.op.base.core.entity.RoleFunction">
+    insert into t_role_function
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="roleFunctionId != null">
+        role_function_id,
+      </if>
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="functionId != null">
+        function_id,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="roleFunctionId != null">
+        #{roleFunctionId,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="functionId != null">
+        #{functionId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.op.base.core.entity.RoleFunction">
+    update t_role_function
+    <set>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="functionId != null">
+        function_id = #{functionId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where role_function_id = #{roleFunctionId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.op.base.core.entity.RoleFunction">
+    update t_role_function
+    set role_id = #{roleId,jdbcType=VARCHAR},
+      function_id = #{functionId,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where role_function_id = #{roleFunctionId,jdbcType=VARCHAR}
+  </update>
+
+    <!-- 批量插入 -->
+    <insert id="batchInsertRoleFunction">
+        insert into t_role_function (role_function_id, role_id, function_id)
+        values
+        <foreach collection="list" index="index" item="item" separator=",">
+            (
+                (SELECT UUID() AS roleFunctionId),
+                #{item.roleId,jdbcType=VARCHAR},
+                #{item.functionId,jdbcType=VARCHAR}
+            )
+        </foreach>
+    </insert>
+
+    <!-- 根据角色ID删除 -->
+    <delete id="deleteByRoleId">
+        delete from t_role_function where role_id = #{roleId,jdbcType=VARCHAR}
+    </delete>
+
+</mapper>

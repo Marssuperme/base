@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.op.base.core.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.op.base.core.entity.User">
+    <id column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="user_account" jdbcType="VARCHAR" property="userAccount" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="user_password" jdbcType="VARCHAR" property="userPassword" />
+    <result column="user_gender" jdbcType="INTEGER" property="userGender" />
+    <result column="user_email" jdbcType="VARCHAR" property="userEmail" />
+    <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
+    <result column="role_id" jdbcType="VARCHAR" property="roleId" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <association column="role_id" property="role" javaType="com.op.base.core.entity.Role" resultMap="com.op.base.core.mapper.RoleMapper.BaseResultMap"></association>
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_id, user_account, user_name, user_password, user_gender, user_email, user_phone, 
+    role_id, state, remark, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_user
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_user
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.op.base.core.entity.User">
+    insert into t_user (user_id, user_account, user_name,
+      user_password, user_gender, user_email, 
+      user_phone, role_id, state, 
+      remark, create_time)
+    values (#{userId,jdbcType=VARCHAR}, #{userAccount,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{userPassword,jdbcType=VARCHAR}, #{userGender,jdbcType=INTEGER}, #{userEmail,jdbcType=VARCHAR}, 
+      #{userPhone,jdbcType=VARCHAR}, #{roleId,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.op.base.core.entity.User">
+    insert into t_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userAccount != null">
+        user_account,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="userPassword != null">
+        user_password,
+      </if>
+      <if test="userGender != null">
+        user_gender,
+      </if>
+      <if test="userEmail != null">
+        user_email,
+      </if>
+      <if test="userPhone != null">
+        user_phone,
+      </if>
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userAccount != null">
+        #{userAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null">
+        #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userGender != null">
+        #{userGender,jdbcType=INTEGER},
+      </if>
+      <if test="userEmail != null">
+        #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null">
+        #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.op.base.core.entity.User">
+    update t_user
+    <set>
+      <if test="userAccount != null">
+        user_account = #{userAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null">
+        user_password = #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userGender != null">
+        user_gender = #{userGender,jdbcType=INTEGER},
+      </if>
+      <if test="userEmail != null">
+        user_email = #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null">
+        user_phone = #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.op.base.core.entity.User">
+    update t_user
+    set user_account = #{userAccount,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      user_password = #{userPassword,jdbcType=VARCHAR},
+      user_gender = #{userGender,jdbcType=INTEGER},
+      user_email = #{userEmail,jdbcType=VARCHAR},
+      user_phone = #{userPhone,jdbcType=VARCHAR},
+      role_id = #{roleId,jdbcType=VARCHAR},
+      state = #{state,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+
+    <!--用户登录验证-->
+    <select id="userLogin" resultType="com.op.base.core.entity.common.BaseUser">
+       SELECT
+          user_id as userId, user_account as userAccount, user_name as userName,
+          user_password as userPassword, user_gender as userGender, user_email as userEmail,
+          user_phone as userPhone, remark as userRemark, state as userState,
+          role_id as roleId, create_time as createTime
+        FROM t_user
+        WHERE user_account=#{userAccount} AND user_password=#{userPassword} AND role_id=#{roleId} and state=0
+    </select>
+
+    <!--用户验证是否存在-->
+    <select id="selectByUserAccount" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT * FROM t_user WHERE user_account=#{userAccount}
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAllUser" resultMap="BaseResultMap">
+        SELECT * FROM t_user u LEFT JOIN t_role r ON u.role_id = r.role_id ORDER BY u.create_time desc
+    </select>
+
+    <!--获取用户权限-->
+    <select id="selectUserAuthority" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT f.function_code AS auth FROM t_function f, t_user u, t_role_function rf
+        WHERE  rf.function_id = f.function_id AND rf.role_id = u.role_id
+        AND u.user_id=#{userId}
+    </select>
+
+</mapper>
